@@ -8,7 +8,7 @@ from .forms import TareaForm
 from .models import Tarea
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+# Create your views here/vistas
 def home(request):
     return render(request, 'home.html')
 
@@ -18,7 +18,7 @@ def regis(request):
         return render(request, 'regis.html', {
         'form' : UserCreationForm
         })
-    else: #si el reques metodo es post
+    else: #si el request metodo es post
         if request.POST['password1'] == request.POST['password2']:
             try:
                 #form = UserCreationForm(username.CharField(label='nombre de usuario'))

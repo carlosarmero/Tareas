@@ -2,7 +2,8 @@
 
 {% block content %}
 <h5 class="text-center">A continuación puedes editar la tarea</h5>
-{{tarea.titulo}}
+<h5>Título actual: {{tarea.titulo}}</h5>
+<h6>Descripción actual: </h>{{tarea.descripcion}}
 {{error}}
 <form class="text-center py-3" method="post">
     {% csrf_token %}

@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.db import IntegrityError
 from .forms import TareaForm
+from .usuario import Crearusuario
 from .models import Tarea
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
+
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 # Create your views here/vistas
 def home(request):
     return render(request, 'home.html')
@@ -16,26 +20,28 @@ def regis(request):
     
     if request.method == 'GET':
         return render(request, 'regis.html', {
-        'form' : UserCreationForm
+        'form' : Crearusuario
         })
     else: #si el request metodo es post
         if request.POST['password1'] == request.POST['password2']:
             try:
+             
+                validate_email(request.POST['email'])                
                 #form = UserCreationForm(username.CharField(label='nombre de usuario'))
                 user = User.objects.create_user(
-                username=request.POST['username'],
+                username=request.POST['email'],
                 password=request.POST['password1']) 
                 user.save() #lo guarda en bd
                 login(request, user) #crea el cookie de sesion
                 return redirect('tasks') #HttpResponse("user created")   
-            except IntegrityError: 
+            except (ValidationError, IntegrityError): 
                 return render(request, 'regis.html', {
-                    'form' : UserCreationForm,
-                    "error": "Usuario no creado"
+                    'form' : Crearusuario,
+                    "error": "Correo electrónico no valído o en uso"
                 })                           
     
         return render(request, 'regis.html', {
-        'form' : UserCreationForm,
+        'form' : Crearusuario,
         'error': "Contraseñas no coinciden"
         })
        # HttpResponse("OSiris mal passw")

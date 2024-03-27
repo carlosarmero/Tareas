@@ -23,9 +23,9 @@ def regis(request):
         'form' : Crearusuario
         })
     else: #si el request metodo es post
-        if request.POST['password1'] == request.POST['password2']:
+        if request.POST['password1'] == request.POST['password2'] and len(request.POST['password1']) >= 6:
             try:
-             
+                #valida que si sea email
                 validate_email(request.POST['email'])                
                 #form = UserCreationForm(username.CharField(label='nombre de usuario'))
                 user = User.objects.create_user(
@@ -37,12 +37,12 @@ def regis(request):
             except (ValidationError, IntegrityError): 
                 return render(request, 'regis.html', {
                     'form' : Crearusuario,
-                    "error": "Correo electrónico no valído o en uso"
+                    "error": "Correo electrónico no valído o ya está en uso"
                 })                           
     
         return render(request, 'regis.html', {
         'form' : Crearusuario,
-        'error': "Contraseñas no coinciden"
+        'error': "Contraseñas no coinciden o no tiene al menos 6 caracterés"
         })
        # HttpResponse("OSiris mal passw")
 @login_required #proteje urls

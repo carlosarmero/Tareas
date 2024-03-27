@@ -8,7 +8,7 @@
     <h1 class="text-center">Regístrate</h1>
     <p class="text-center">Introduce tus datos</p>
     {% csrf_token %}
-    {{form.as_p}} 
+    {{form}} 
     <button class="btn btn-primary">Enrolarse</button>
     {{error}}
  </form>

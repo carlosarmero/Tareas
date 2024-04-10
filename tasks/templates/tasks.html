@@ -7,13 +7,15 @@
     {%for tarea in tareas%}
     <li class="list-group-item">
         {% if tarea.important %}
-        <h2><a href="{% url 'detarea' tarea.id %}">{{tarea.titulo}}</a></h2>
+        <div draggable="true">
+        <h2 ><a href="{% url 'detarea' tarea.id %}">{{tarea.titulo}}</a></h2>
         {% else %}
         <h4><a href="{% url 'detarea' tarea.id %}">{{tarea.titulo}}</a></h4>
-        {% endif %}
+        {% endif %} 
         <p class="mt-3">{{tarea.descripcion}}</p>
         <p>Fecha de creación: {{tarea.creado}}</p>
             <!--<p>{{tarea.fechacompletado}}</p>     -->
+        </div>    
     </li>
     {%endfor%}
 </ul>
@@ -21,6 +23,6 @@
 <button class="btn btn-secondary">Crear nueva tarea</button>
 </form>
 <form class="text-center py-3" action="{% url 'tacompl' %}">
-    <button class="btn btn-success">Tareas completas</button>
+    <button class="btn btn-success">Tareas completadas</button>
     </form>
 {% endblock %}
